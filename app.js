@@ -1,8 +1,8 @@
-const addForm = document.querySelector('.add');
-const list = document.querySelector('.todos');
+const addForm = document.querySelector(".add");
+const list = document.querySelector(".todos");
+const search = document.querySelector(".search input"); 
 
-
-const generateTemplate = todo => {
+const generateTemplate = (todo) => {
   const html = `
   <li
           class="list-group-item d-flex justify-content-between align-items-center"
@@ -15,13 +15,36 @@ const generateTemplate = todo => {
   list.innerHTML += html;
 };
 
-addForm.addEventListener('submit', e => {
+addForm.addEventListener("submit", (e) => {
   e.preventDefault();
   const todo = addForm.add.value.trim();
-  
-  if(todo.length) {
+
+  if (todo.length) {
     generateTemplate(todo);
     addForm.reset();
   }
+});
+
+// delete todo
+list.addEventListener("click", (e) => {
+  if (e.target.classList.contains("delete")) {
+    console.log(e.target.parentElement);
+    e.target.parentElement.remove();
+  }
+});
+
+const filterTodos = (term) => {
+ Array.from(list.children)
+ .filter((todo) => {
+   return !todo.textContent.includes(term);
   
-})
+ });
+};
+
+// console.log(filterTodos.);
+
+// keyup event
+search.addEventListener('keyup', () => {
+  const term = search.value.trim();
+  filterTodos(term);
+});
